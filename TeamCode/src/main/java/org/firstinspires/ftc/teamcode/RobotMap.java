@@ -29,7 +29,11 @@ public class RobotMap {
     public static final int ENCODER_TOLERANCE = 20;
 
     // Claw Parameters
-    public static final String CLAW_MOTOR = "claw_motor";
+    public static final String BUNGEE_MOTOR = "claw_motor";
+    public static final DcMotor.Direction BUNGEE_DIRECTION = DcMotor.Direction.FORWARD;
+    public static final double BUNGEE_SPEED = 0.25;
+    public static final int REVERSE_BUNGEE_ENCODER_VALUE = -1;
+
 
     // ELevator Parameters
     public static final String ELEVATOR_MOTOR = "elevator_motor";

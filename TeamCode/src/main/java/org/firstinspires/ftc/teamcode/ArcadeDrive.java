@@ -45,6 +45,7 @@ public class ArcadeDrive extends OpMode
     private ElapsedTime runtime = new ElapsedTime();
     private DriveTrain drivetrain;
     private ElevatorMotor elevator;
+    private BungeeClaw bungeeClaw;
 
 
     /*
@@ -55,6 +56,7 @@ public class ArcadeDrive extends OpMode
 
         drivetrain = new DriveTrain(hardwareMap, telemetry);
         elevator = new ElevatorMotor(hardwareMap, telemetry);
+        bungeeClaw = new BungeeClaw(hardwareMap, telemetry);
     }
 
     /*
@@ -81,6 +83,7 @@ public class ArcadeDrive extends OpMode
 
         drivetrain.arcadeDrive(gamepad1);
         elevator.manual(gamepad2);
+        bungeeClaw.manual(gamepad2);
 
         // Show the elapsed game time.
         if (RobotMap.DISPLAY_TIME) {
