@@ -42,15 +42,24 @@ public class BungeeClaw {
      */
     public void manual(Gamepad gamepad) {
 
-        manual(gamepad.right_trigger, gamepad.left_trigger);
+        manual(gamepad.right_trigger, gamepad.left_trigger, gamepad.a);
     }
-    public void manual(double right_trigger, double left_trigger){
-        double speedLimit = RobotMap.BUNGEE_SPEED;
+    public void manual(double right_trigger, double left_trigger, Boolean aButton){
+
+        double speedLimit = RobotMap.BUNGEE_SLOW;
+
+        if(aButton){
+            speedLimit = RobotMap.BUNGEE_SPEED;
+        }
 
         double power = right_trigger - left_trigger;
 
         // Limit speed of arm
         power *= speedLimit;
+
+
+
+
 
         setPower(power);
 

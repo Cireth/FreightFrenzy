@@ -81,7 +81,13 @@ public class ArcadeDrive extends OpMode
     @Override
     public void loop() {
 
-        drivetrain.arcadeDrive(gamepad1);
+        if(gamepad1.right_trigger > RobotMap.DEADZONE){
+            drivetrain.tankDrive(gamepad1);
+        }
+        else {
+            drivetrain.arcadeDrive(gamepad1);
+        }
+
         elevator.manual(gamepad2);
         bungeeClaw.manual(gamepad2);
 

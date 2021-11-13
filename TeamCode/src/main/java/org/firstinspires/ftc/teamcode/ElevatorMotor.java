@@ -15,6 +15,7 @@ public class ElevatorMotor {
     double encoderGoal;
     DcMotor motor;
     Telemetry telemetry;
+    double startEncoder;
 
 
     /**
@@ -34,7 +35,7 @@ public class ElevatorMotor {
 
         //Set the encoder starting position
         encoderGoal = motor.getCurrentPosition();
-
+        startEncoder = encoderGoal;
     }
 
 
@@ -48,10 +49,23 @@ public class ElevatorMotor {
         manual(gamepad.left_stick_y);
     }
     public void manual(double leftStick){
+        double power;
+        double encoderMax = startEncoder + RobotMap.ELEVATOR_DIFF;
         double encoderValue = getEncoder();
         double speedLimit = RobotMap.ELEVATOR_SPEED;
+        double speedLimitDown = RobotMap.ELEVATOR_SPEED_DOWN;
 
-        double power = leftStick * RobotMap.REVERSE_JOYSTICK_DIRECTION;
+        // greater than and less than signs may need to be switched
+
+        power = leftStick * RobotMap.REVERSE_JOYSTICK_DIRECTION;
+
+        if(encoderValue >= encoderMax && power > 0){
+            power = 0;
+        }
+        else if(encoderValue <= startEncoder && power < 0){
+            power = 0;
+        }
+
 
         if (Math.abs(power) < RobotMap.DEADZONE) {
             double error = encoderGoal - encoderValue;
@@ -62,7 +76,12 @@ public class ElevatorMotor {
         }
 
         // Limit speed of arm
-        power *= speedLimit;
+        if(power < 0) {
+            power *= speedLimitDown;
+        }
+        else {
+            power *= speedLimit;
+        }
 
         setPower(power);
 
