@@ -18,6 +18,7 @@ public class ElevatorMotor {
     double startEncoder;
 
 
+
     /**
      * Constructor for the drivetrain
      *
@@ -46,9 +47,9 @@ public class ElevatorMotor {
      */
     public void manual(Gamepad gamepad) {
 
-        manual(gamepad.left_stick_y);
+        manual(gamepad.left_stick_y, gamepad.y, gamepad.x);
     }
-    public void manual(double leftStick){
+    public void manual(double leftStick, Boolean yButton, Boolean xButton){
         double power;
         double encoderMax = startEncoder + RobotMap.ELEVATOR_DIFF;
         double encoderValue = getEncoder();
@@ -66,12 +67,18 @@ public class ElevatorMotor {
             power = 0;
         }
 
+        if(yButton){
+            encoderGoal = startEncoder + RobotMap.DUCK_HEIGHT;
+        }
+        else if(xButton){
+            encoderGoal = startEncoder + RobotMap.BOTTOM_MID_HEIGHT;
+        }
 
-        if (Math.abs(power) < RobotMap.DEADZONE) {
+        if (Math.abs(power) < RobotMap.DEADZONE) { //when u DON'T TOUCH THE JOySTICK
             double error = encoderGoal - encoderValue;
             power = RobotMap.ELEVATOR_KP * error;
         }
-        else {
+        else { //This happens when you TOUCH THE JOYSTICK
             encoderGoal = encoderValue;
         }
 
