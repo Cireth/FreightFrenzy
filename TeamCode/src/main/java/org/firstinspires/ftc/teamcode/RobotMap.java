@@ -33,15 +33,15 @@ public class RobotMap {
     // Claw Parameters
     public static final String BUNGEE_MOTOR = "claw_motor";
     public static final DcMotor.Direction BUNGEE_DIRECTION = DcMotor.Direction.FORWARD;
-    public static final double BUNGEE_SPEED = 0.9;
+    public static final double BUNGEE_SPEED = 1.0;
     public static final double BUNGEE_SLOW = .75;
     public static final int REVERSE_BUNGEE_ENCODER_VALUE = -1;
 
 
     // ELevator Parameters
-    public static final double BOTTOM_MID_HEIGHT = 500.0;
-    public static final double DUCK_HEIGHT = 3355.0;
-    public static final double ELEVATOR_DIFF = 3500.0;
+    public static final double BOTTOM_MID_HEIGHT = 2200.0;
+    public static final double DUCK_HEIGHT = 2639.0;
+    public static final double ELEVATOR_DIFF = 3650.0;
     public static final String ELEVATOR_MOTOR = "elevator_motor";
     public static final DcMotor.Direction ELEVATOR_DIRECTION = DcMotor.Direction.REVERSE;
     public static final double REVERSE_JOYSTICK_DIRECTION = -1.0;

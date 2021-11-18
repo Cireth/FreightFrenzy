@@ -15,6 +15,7 @@ public class CameraAuton {
     private ElevatorMotor elevatorMotor;
     private DriveTrain driveTrain;
     Telemetry telemetry;
+    private int stage;
 
     public CameraAuton(HardwareMap hardwareMap, Telemetry telemetry, ElapsedTime elapsedTime){
         this.runtime = runtime;
@@ -23,5 +24,18 @@ public class CameraAuton {
         elevatorMotor = new ElevatorMotor(hardwareMap, telemetry);
         driveTrain = new DriveTrain(hardwareMap, telemetry);
 
+    }
+
+    public void mainStages(){
+
+        if(stage == 0){
+
+        }
+        else if(stage == 10){
+
+        }
+        else if(stage == 20){
+
+        }
     }
 }
