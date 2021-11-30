@@ -49,6 +49,9 @@ public class ElevatorMotor {
 
         manual(gamepad.left_stick_y, gamepad.y, gamepad.x);
     }
+    public void manual() {
+        manual(0, false, false);
+    }
     public void manual(double leftStick, Boolean yButton, Boolean xButton){
         double power;
         double encoderMax = startEncoder + RobotMap.ELEVATOR_DIFF;
@@ -99,6 +102,9 @@ public class ElevatorMotor {
 
 
 
+    }
+    public void moveElevator(int encoderMove){
+        encoderGoal += encoderMove;
     }
 
     private void setPower(double power){
