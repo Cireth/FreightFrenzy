@@ -68,6 +68,7 @@ public class AutonStages {
             if (driveTrainEncoder > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
                 stage = 6;
+
             }
 
         }

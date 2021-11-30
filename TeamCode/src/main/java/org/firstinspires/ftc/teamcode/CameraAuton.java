@@ -19,6 +19,7 @@ public class CameraAuton {
     private VuforiaData vuforiaData;
 
 
+
     public CameraAuton(HardwareMap hardwareMap, Telemetry telemetry, ElapsedTime elapsedTime){
         this.runtime = runtime;
         this.telemetry = telemetry;

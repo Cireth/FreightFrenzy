@@ -37,6 +37,7 @@ public class VuforiaData{
     private static final float halfTile         = 12 * mmPerInch;
     private static final float oneAndHalfTile   = 36 * mmPerInch;
 
+
     // Class Members
     private OpenGLMatrix lastLocation   = null;
     private VuforiaLocalizer vuforia    = null;

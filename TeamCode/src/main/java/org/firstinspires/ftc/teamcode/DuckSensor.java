@@ -21,6 +21,7 @@ public class DuckSensor {
             yellow = true;
         } else {
             yellow = false;
+
         }
         return yellow;
 
