@@ -16,6 +16,8 @@ public class CameraAuton {
     private DriveTrain driveTrain;
     Telemetry telemetry;
     private int stage;
+    private VuforiaData vuforiaData;
+
 
     public CameraAuton(HardwareMap hardwareMap, Telemetry telemetry, ElapsedTime elapsedTime){
         this.runtime = runtime;
@@ -23,6 +25,7 @@ public class CameraAuton {
         bungeeClaw = new BungeeClaw(hardwareMap, telemetry);
         elevatorMotor = new ElevatorMotor(hardwareMap, telemetry);
         driveTrain = new DriveTrain(hardwareMap, telemetry);
+        vuforiaData = new VuforiaData(hardwareMap, telemetry);
 
     }
 
