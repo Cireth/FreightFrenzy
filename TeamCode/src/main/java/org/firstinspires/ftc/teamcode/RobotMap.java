@@ -18,7 +18,7 @@ public class RobotMap {
     public static final String RIGHT_BACK_MOTOR = "right_back_drive";
     public static final DcMotor.Direction LEFT_DRIVE_DIRECTION = DcMotor.Direction.FORWARD;
     public static final DcMotor.Direction RIGHT_DRIVE_DIRECTION = DcMotor.Direction.REVERSE;
-    public static final int REVERSE_DRIVETRAIN_ENCODER_VALUE = 1;
+    public static final int REVERSE_DRIVETRAIN_ENCODER_VALUE = -1;
 
     // TankDrive Parameters
     public static final Boolean DISPLAY_MOTOR_VALUES = true;

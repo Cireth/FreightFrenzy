@@ -17,7 +17,10 @@ public class DuckSensor {
 
     public boolean isYellow(){
         boolean yellow;
-        if(colorSensor.red() > 35) {
+        double red = colorSensor.red();
+        double green = colorSensor.green();
+        double blue = colorSensor.blue();
+        if(red/blue > 1.7 & green/blue > 1.4) {
             yellow = true;
         } else {
             yellow = false;
@@ -28,10 +31,14 @@ public class DuckSensor {
     }
 
     public void broadcastColor(){
-
-        //telemetry.addData("Red Value: ", colorSensor.red());
-        //telemetry.addData("Blue Value: ", colorSensor.blue());
-        //telemetry.addData("Green Value: ", colorSensor.green());
+        double red = colorSensor.red();
+        double green = colorSensor.green();
+        double blue = colorSensor.blue();
+        telemetry.addData("Red Value: ", red);
+        telemetry.addData("Blue Value: ", blue);
+        telemetry.addData("Green Value: ", green);
+        telemetry.addData("Red:Blue ", red/blue);
+        telemetry.addData("Green:Blue ", green/blue);
     }
 
 }

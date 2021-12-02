@@ -116,11 +116,7 @@ public class DriveTrain {
         mecanumDrive(leftPower, rightPower, strafeValue);
 
         // Output Encoder Values
-        if (RobotMap.DISPLAY_ENCODER_VALUES) {
-            telemetry.addData("Left Encoder", getEncoderLeft());
-            telemetry.addData("Right Encoder", getEncoderRight());
-            // telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
-        }
+       outputEncoders();
     }
 
     public void mecanumDrive(double leftPower, double rightPower, double strafeValue){
@@ -205,6 +201,15 @@ public class DriveTrain {
 
 
     }
+    public void outputEncoders(){
+        if (RobotMap.DISPLAY_ENCODER_VALUES) {
+            telemetry.addData("Left Encoder", getEncoderLeft());
+            telemetry.addData("Right Encoder", getEncoderRight());
+            // telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
+        }
+    }
+
+
 
 
     public void tankDrive(Gamepad gamepad) {

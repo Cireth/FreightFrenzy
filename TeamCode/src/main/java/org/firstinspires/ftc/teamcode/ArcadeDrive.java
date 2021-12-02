@@ -47,6 +47,7 @@ public class ArcadeDrive extends OpMode
     private DriveTrain drivetrain;
     private ElevatorMotor elevator;
     private BungeeClaw bungeeClaw;
+    private DuckSensor duckSensor;
 
 
     /*
@@ -58,6 +59,7 @@ public class ArcadeDrive extends OpMode
         drivetrain = new DriveTrain(hardwareMap, telemetry);
         elevator = new ElevatorMotor(hardwareMap, telemetry);
         bungeeClaw = new BungeeClaw(hardwareMap, telemetry);
+        duckSensor = new DuckSensor(hardwareMap, telemetry);
     }
 
     /*
@@ -91,6 +93,8 @@ public class ArcadeDrive extends OpMode
 
         elevator.manual(gamepad2);
         bungeeClaw.manual(gamepad2);
+        duckSensor.broadcastColor();
+        telemetry.addData("DuckDetected: ", duckSensor.isYellow());
 
         // Show the elapsed game time.
         if (RobotMap.DISPLAY_TIME) {

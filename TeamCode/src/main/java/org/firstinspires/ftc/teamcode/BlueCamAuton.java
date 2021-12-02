@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 
-@Autonomous(name="BlueShootAuton", group="UltimateGoal")
+@Autonomous(name="BlueCamAuton", group="FreightFrenzy")
 public class BlueCamAuton extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
