@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Code for Sky Stone FTC 2019
+ * Code for Freight Frenzy FTC 2021
  *
  * Team 14561
  */
