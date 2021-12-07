@@ -108,6 +108,10 @@ public class ElevatorMotor {
         encoderGoal += encoderMove;
     }
 
+    public void setElevatorGoal (int autonGoal){
+        encoderGoal = autonGoal;
+    }
+
     private void setPower(double power){
         // Make sure power levels are within expected range
         power = safetyCheck(power);
