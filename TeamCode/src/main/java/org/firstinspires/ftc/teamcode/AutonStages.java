@@ -17,7 +17,7 @@ public class AutonStages {
     private BungeeClaw bungeeClaw;
     private DuckSensor duckSensor;
     private Telemetry telemetry;
-    private int stage = 0;
+    private int stage = 1000;
     private double expirationTime;
     private ElapsedTime runtime;
     private double driveTrainGoal;
@@ -40,9 +40,63 @@ public class AutonStages {
 
     public void mainStages() {
         elevator.manual();
-        driveTrainEncoder = drivetrain.getEncoderRight();
+        int driveEncoderRight = drivetrain.getEncoderRight();
+        int driveEncoderLeft = drivetrain.getEncoderLeft();
+        driveTrainEncoder = driveEncoderRight;
         duckSensor.broadcastColor();
         drivetrain.outputEncoders();
+
+        if (stage == 1000) {
+            elevator.moveElevator(1800);
+            expirationTime = runtime.time() + 1.0;
+            stage = 1100;
+        } else if (stage == 1100) {
+            if (runtime.time() > expirationTime) stage = 1200;
+        } else if (stage ==1200) {
+            if (side == Side.RIGHT & color == Color.BLUE) {
+                driveTrainGoal = driveEncoderRight + 5000;
+                drivetrain.arcadeDrive(0, -0.6, 0.6, false, true);
+                //rotate, forward/back, strafe
+                expirationTime = runtime.time() + 5.0;
+                stage = 1300;
+            } else if (side == Side.LEFT & color == Color.RED) {
+                driveTrainGoal = driveEncoderLeft + 5000;
+                drivetrain.arcadeDrive(0, -0.6, -0.6, false, true);
+                //rotate, forward/back, strafe
+                expirationTime = runtime.time() + 5.0;
+                stage = 1300;
+            } else if (side == Side.LEFT & color == Color.BLUE) {
+                driveTrainGoal = driveEncoderLeft + 3000;
+                drivetrain.arcadeDrive(0, 0, -0.6, false, true);
+                //rotate, forward/back, strafe
+                expirationTime = runtime.time() + 5.0;
+                stage = 1300;
+            } else if (side == Side.RIGHT & color == Color.RED) {
+                driveTrainGoal = driveEncoderRight + 3000;
+                drivetrain.arcadeDrive(0, 0, 0.6, false, true);
+                //rotate, forward/back, strafe
+                expirationTime = runtime.time() + 5.0;
+                stage = 1300;
+            }
+        } else if (stage == 1300) {
+            int encoderValue = 0;
+            if (side == Side.RIGHT & color == Color.BLUE) {
+                encoderValue = driveEncoderRight;
+            } else if (side == Side.LEFT & color == Color.RED) {
+                encoderValue = driveEncoderLeft;
+            } else if (side == Side.RIGHT & color == Color.RED) {
+                encoderValue = driveEncoderRight;
+            } else if (side == Side.LEFT & color == Color.BLUE) {
+                encoderValue = driveEncoderLeft;
+            }
+            if (encoderValue > driveTrainGoal || (runtime.time() > expirationTime)) {
+                drivetrain.arcadeDrive(0, 0, .0, false, true);
+                stage = 1400;
+            }
+        } else if (stage ==1400) {
+            elevator.moveElevator(-1800);
+            stage = 1500;
+        }
 
         if (stage == 0) {
             elevator.moveElevator(1800);

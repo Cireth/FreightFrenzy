@@ -194,8 +194,8 @@ public class DriveTrain {
 
         // Output Encoder Values
         if (RobotMap.DISPLAY_ENCODER_VALUES) {
-            telemetry.addData("Left Encoder", leftEncoder.getCurrentPosition());
-            telemetry.addData("Right Encoder", rightEncoder.getCurrentPosition());
+            telemetry.addData("Left Encoder", getEncoderLeft());
+            telemetry.addData("Right Encoder", getEncoderRight());
             // telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
         }
 
