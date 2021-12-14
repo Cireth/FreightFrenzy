@@ -39,9 +39,9 @@ public class RobotMap {
 
 
     // ELevator Parameters
-    public static final double BOTTOM_MID_HEIGHT = 2200.0;
-    public static final double DUCK_HEIGHT = 2639.0;
-    public static final double ELEVATOR_DIFF = 3980.0;
+    public static final int BOTTOM_MID_HEIGHT = 2200;
+    public static final int DUCK_HEIGHT = 2639;
+    public static final int ELEVATOR_DIFF = 3980;
     public static final String ELEVATOR_MOTOR = "elevator_motor";
     public static final DcMotor.Direction ELEVATOR_DIRECTION = DcMotor.Direction.REVERSE;
     public static final double REVERSE_JOYSTICK_DIRECTION = -1.0;

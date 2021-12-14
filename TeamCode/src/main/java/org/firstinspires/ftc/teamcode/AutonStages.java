@@ -50,7 +50,7 @@ public class AutonStages {
 
         if (stage == 0) {
             //moves elevator
-            elevator.setElevatorGoal(1700);
+            elevator.setElevatorGoal(1550);
             expirationTime = runtime.time() + 1.5;
             stage = 1;
         } else if (stage == 1) {
@@ -78,11 +78,16 @@ public class AutonStages {
             //stop
             if (driveTrainEncoder > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
-                stage = 23;
+                stage = 58;
             }
 
         }
+        else if (stage == 58){
+            expirationTime = runtime.time() + 5.0;
+            stage = 23;
+        }
         else if (stage == 23){
+            //wait for two
             if (runtime.time() > expirationTime);
             stage = 4;
         }
@@ -221,8 +226,88 @@ public class AutonStages {
                stage = 109;
            }
         }
+        /*
         else if (stage == 109){
+            //backward & turn
+            if (side == Side.LEFT & color == Color.BLUE) {
+                driveTrainGoal = driveEncoderLeft - 700;
+                drivetrain.arcadeDrive(0.3, -0.5, 0, false, true);
+                //rotate, forward/back, strafe
+            }
+            if (side == Side.RIGHT & color == Color.BLUE) {
 
+            }
+            if (side == Side.LEFT & color == Color.RED) {
+
+            }
+            if (side == Side.RIGHT & color == Color.RED) {
+
+            }
+            expirationTime = runtime.time() + 5.0;
+            stage = 110;
+        }
+        else if (stage == 111){
+            //stopping
+            if (driveEncoderLeft > driveTrainGoal || (runtime.time() > expirationTime)) {
+                drivetrain.arcadeDrive(0, 0, .0, false, true);
+                stage = 112;
+            }
+        }
+        /* DUCK SPINNY
+        else if (stage == 113){
+            //to duck
+            if (side == Side.LEFT & color == Color.BLUE) {
+                driveTrainGoal = driveEncoderLeft + 1500;
+                drivetrain.arcadeDrive(0, -0.5, 0, false, true);
+                //rotate, forward/back, strafe
+            }
+            if (side == Side.RIGHT & color == Color.BLUE) {
+
+            }
+            if (side == Side.LEFT & color == Color.RED) {
+
+            }
+            if (side == Side.RIGHT & color == Color.RED) {
+
+            }
+            expirationTime = runtime.time() + 5.0;
+            stage = 114;
+        }
+        else if (stage == 115){
+            //stopping
+            if (driveEncoderLeft > driveTrainGoal || (runtime.time() > expirationTime)) {
+                drivetrain.arcadeDrive(0, 0, .0, false, true);
+                stage = 116;
+            }
+        }
+        else if (stage == 116){
+            //move elevator to duck height
+            elevator.setElevatorGoal(2639);
+            expirationTime = runtime.time() + 1.5;
+            stage = 117;
+        }
+        else if (stage == 117) {
+            if (runtime.time() > expirationTime) stage = 118;
+        }
+        else if (stage == 118){
+            //im fairly convinced this is a job for the camera, position for ducks
+            stage = 119;
+        }
+        else if (stage == 120){
+            //move bungee to get duck
+            bungeeClaw.manual(0, 0.5, false);
+            expirationTime = runtime.time() + 3.5;
+            stage = 121;
+        }
+        else if (stage == 121){
+            //bungee stop
+            if(runtime.time() > expirationTime){
+                bungeeClaw.manual(0,0, false);
+                stage = 122;
+            }
+        }
+        else if (stage == 122){
+            //park, warehouse on other side is 5 partial or 10 full, storage near is 3 or 6
         }
 
 

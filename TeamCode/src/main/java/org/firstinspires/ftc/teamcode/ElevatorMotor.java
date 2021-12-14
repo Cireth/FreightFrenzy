@@ -12,10 +12,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ElevatorMotor {
 
     // Class variables
-    double encoderGoal;
+    int encoderGoal;
     DcMotor motor;
     Telemetry telemetry;
-    double startEncoder;
+    int startEncoder;
 
 
 
@@ -35,8 +35,8 @@ public class ElevatorMotor {
         motor.setDirection(RobotMap.ELEVATOR_DIRECTION);
 
         //Set the encoder starting position
-        encoderGoal = motor.getCurrentPosition();
-        startEncoder = encoderGoal;
+        startEncoder = motor.getCurrentPosition();
+        zeroEncoder();
     }
 
 
@@ -55,7 +55,7 @@ public class ElevatorMotor {
     public void manual(double leftStick, Boolean yButton, Boolean xButton){
         double power;
         double encoderMax = startEncoder + RobotMap.ELEVATOR_DIFF;
-        double encoderValue = getEncoder();
+        int encoderValue = getEncoder();
         double speedLimit = RobotMap.ELEVATOR_SPEED;
         double speedLimitDown = RobotMap.ELEVATOR_SPEED_DOWN;
 
@@ -128,7 +128,10 @@ public class ElevatorMotor {
     }
 
     public int getEncoder () {
-        return RobotMap.REVERSE_ELEVATOR_ENCODER_VALUE * (motor.getCurrentPosition());
+        return RobotMap.REVERSE_ELEVATOR_ENCODER_VALUE * (motor.getCurrentPosition() - startEncoder);
+    }
+    public void zeroEncoder() {
+        startEncoder = motor.getCurrentPosition();
     }
 
 
