@@ -52,11 +52,11 @@ public class AutonStages {
             //moves elevator
             elevator.setElevatorGoal(1550);
             expirationTime = runtime.time() + 1.5;
-            stage = 1;
-        } else if (stage == 1) {
+            stage = 10;
+        } else if (stage == 10) {
             //gives elevator time to move
-            if (runtime.time() > expirationTime) stage = 2;
-        } else if (stage == 2) {
+            if (runtime.time() > expirationTime) stage = 20;
+        } else if (stage == 20) {
             //strafe to dot 2
             if (side == Side.LEFT & color == Color.BLUE) {
                 driveTrainGoal = driveTrainEncoder + 1750;
@@ -73,30 +73,30 @@ public class AutonStages {
 
             }
             expirationTime = runtime.time() + 7.0;
-            stage = 3;
-        } else if (stage == 3) {
+            stage = 30;
+        } else if (stage == 30) {
             //stop
             if (driveTrainEncoder > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
-                stage = 58;
+                stage = 40;
             }
 
         }
-        else if (stage == 58){
+        else if (stage == 40){
             expirationTime = runtime.time() + 5.0;
-            stage = 23;
+            stage = 50;
         }
-        else if (stage == 23){
+        else if (stage == 50){
             //wait for two
             if (runtime.time() > expirationTime);
-            stage = 4;
+            stage = 60;
         }
-        else if (stage == 4) {
+        else if (stage == 60) {
             //scan for duck 2
             duck = (duckSensor.isYellow()) ? 2 : 0;
-            stage = 5;
+            stage = 60;
         }
-        else if (stage == 5) {
+        else if (stage == 60) {
             //strafe to 3
             if (side == Side.LEFT & color == Color.BLUE) {
                 driveTrainGoal = driveTrainEncoder + 1000;
@@ -113,31 +113,33 @@ public class AutonStages {
 
             }
             expirationTime = runtime.time() + 5.0;
-            stage = 6;
-        } else if (stage == 6) {
+            stage = 70;
+        } else if (stage == 70) {
             //stops
             if (driveTrainEncoder > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
                 expirationTime = runtime.time() + 1.0;
+               //if two it skips scanning for three
                 if(duck == 2) {
                     stage = 100;
                 }
                 else{
-                    stage = 7;
+                    stage = 80;
                 }
             }
         }
-        else if (stage == 7){
+        else if (stage == 80){
             //wait
             if (runtime.time() > expirationTime);
-            stage = 8;
+            stage = 90;
         }
-        else if (stage == 8) {
+        else if (stage == 90) {
             //scanning for 3 (or 1)
             duck = (duckSensor.isYellow()) ? 3 : 1;
             stage = 100;
         }
         else if (stage == 100){
+            //sets elevator goal based on duck number
             if (duck == 1){
                 duckAmount = 1300;
             }
@@ -147,18 +149,18 @@ public class AutonStages {
             if (duck == 3){
                 duckAmount = 3800;
             }
-            stage = 101;
+            stage = 110;
         }
         else if (stage == 101){
             elevator.setElevatorGoal(duckAmount);
             expirationTime = runtime.time() + 1.5;
-            stage = 102;
+            stage = 120;
         }
-        else if (stage == 102) {
-            if (runtime.time() > expirationTime) stage = 103;
+        else if (stage == 120) {
+            if (runtime.time() > expirationTime) stage = 130;
         }
-        else if (stage == 103) {
-            //turn
+        else if (stage == 130) {
+            //turn away from hub
             if (side == Side.LEFT & color == Color.BLUE) {
                 driveTrainGoal = driveEncoderLeft + 1000;
                 drivetrain.arcadeDrive(0.5, 0, -.1, false, true);
@@ -174,19 +176,19 @@ public class AutonStages {
 
             }
             expirationTime = runtime.time() + 5.0;
-            stage = 104;
+            stage = 140;
 
         }
-        else if (stage == 104) {
+        else if (stage == 140) {
             //stopping
             if (driveEncoderLeft > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
-                stage = 105;
+                stage = 150;
             }
 
         }
-        else if (stage == 105) {
-            //forward
+        else if (stage == 150) {
+            //forward (toward duck spin)
             if (side == Side.LEFT & color == Color.BLUE) {
                 driveTrainGoal = driveEncoderLeft + 700;
                 drivetrain.arcadeDrive(0, -0.5, 0, false, true);
@@ -202,28 +204,36 @@ public class AutonStages {
 
             }
             expirationTime = runtime.time() + 5.0;
-            stage = 106;
+            stage = 160;
 
         }
-        else if (stage == 106) {
+        else if (stage == 160) {
             //stopping
             if (driveEncoderLeft > driveTrainGoal || (runtime.time() > expirationTime)) {
                 drivetrain.arcadeDrive(0, 0, .0, false, true);
-                stage = 107;
+                stage = 170;
             }
 
         }
-        else if(stage == 107){
+        else if (stage == 170){
+            elevator.setElevatorGoal(RobotMap.DUCK_HEIGHT);
+            expirationTime = runtime.time() + 1.5;
+            stage = 175;
+        }
+        else if (stage == 175) {
+            if (runtime.time() > expirationTime) stage = 180;
+        }
+        else if(stage == 180){
             //move bungee
             bungeeClaw.manual(0, 0.5, false);
             expirationTime = runtime.time() + 2.5;
-            stage = 108;
+            stage = 190;
         }
-        else if (stage == 108){
+        else if (stage == 200){
             //bungee stop
            if(runtime.time() > expirationTime){
                bungeeClaw.manual(0,0, false);
-               stage = 109;
+               stage = 190;
            }
         }
         /*
