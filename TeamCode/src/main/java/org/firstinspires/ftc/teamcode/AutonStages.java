@@ -244,7 +244,7 @@ public class AutonStages {
         }
         else if(stage == 170){
             //move bungee release block
-            bungeeClaw.manual(0, 0.5, false);
+            bungeeClaw.manual(0, 0.8, false);
             expirationTime = runtime.time() + 1.5;
             stage = 175;
         }
@@ -291,10 +291,10 @@ public class AutonStages {
             //turn to duck ROTATE
             if (side == Side.LEFT & color == Color.BLUE) {
                 //end possibly park in warehouse but i don't have the space for that
-                stage = 10000;
+                stage = 300;
             }
             if (side == Side.RIGHT & color == Color.BLUE) {
-                driveTrainGoal = driveEncoderRight - 2200;
+                driveTrainGoal = driveEncoderRight - 2600;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 1.5;
@@ -309,7 +309,7 @@ public class AutonStages {
             }
             if (side == Side.RIGHT & color == Color.RED) {
                 //end possibly park in warehouse but i don't have the space for that
-                stage = 10000;
+                stage = 300;
             }
 
         }
@@ -391,7 +391,7 @@ public class AutonStages {
 
         else if(stage == 223){
             //move bungee
-            bungeeClaw.manual(0, 0.5, false);
+            bungeeClaw.manual(0, 0.8, false);
             expirationTime = runtime.time() + 2.5;
             stage = 230;
         }
@@ -399,9 +399,17 @@ public class AutonStages {
             //bungee stop
            if(runtime.time() > expirationTime){
                bungeeClaw.manual(0,0, false);
-               stage = 240;
+               stage = 300;
            }
 
+        }
+        else if (stage == 300){
+            elevator.setElevatorGoal(0);
+            expirationTime = runtime.time() + 5;
+            stage = 301;
+        }
+        else if (stage == 301) {
+            if (runtime.time() > expirationTime) stage = 302;
         }
         /*
         else if (stage == 109){

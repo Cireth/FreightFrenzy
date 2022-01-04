@@ -54,7 +54,8 @@ public class DriveTrain {
         leftZero = getEncoderLeft();
 
         //Set up gyroscope
-        //gyro = hardwareMap.get(BNO055IMU.class, "imu");
+        gyro = hardwareMap.get(BNO055IMU.class, "imu");
+        gyroInit();
     }
 
     public int getEncoderRight() {
@@ -196,7 +197,12 @@ public class DriveTrain {
         if (RobotMap.DISPLAY_ENCODER_VALUES) {
             telemetry.addData("Left Encoder", getEncoderLeft());
             telemetry.addData("Right Encoder", getEncoderRight());
-            // telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
+
+            telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
+            telemetry.addData("Gyroscope", gyro.getAngularOrientation().secondAngle);
+            telemetry.addData("Gyroscope", gyro.getAngularOrientation().thirdAngle);
+
+
         }
 
 
