@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -24,6 +25,8 @@ public class AutonStages {
     private int duck = 0;
     private int driveTrainEncoder;
     private int duckAmount;
+    private double gyroGoal = 0.0;
+    BNO055IMU gyro;
 
 
     public AutonStages(Color color, Side side, HardwareMap hardwareMap,
@@ -290,25 +293,25 @@ public class AutonStages {
         else if (stage == 185) {
             //turn to duck ROTATE
             if (side == Side.LEFT & color == Color.BLUE) {
-                //end possibly park in warehouse but i don't have the space for that
                 stage = 300;
             }
             if (side == Side.RIGHT & color == Color.BLUE) {
-                driveTrainGoal = driveEncoderRight - 2600;
+                drivetrain.gyroInit();
+                gyroGoal = 100.0;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 1.5;
                 stage = 186;
             }
             if (side == Side.LEFT & color == Color.RED) {
-                driveTrainGoal = driveEncoderRight + 3500;
+                drivetrain.gyroInit();
+                gyroGoal = -100.0;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 1.5;
                 stage = 186;
             }
             if (side == Side.RIGHT & color == Color.RED) {
-                //end possibly park in warehouse but i don't have the space for that
                 stage = 300;
             }
 
@@ -316,13 +319,13 @@ public class AutonStages {
         else if (stage == 186) {
             //stopping
            if (side == Side.RIGHT){
-               if (driveEncoderRight < driveTrainGoal || (runtime.time() > expirationTime)) {
+               if (gyro.getAngularOrientation().firstAngle > gyroGoal || (runtime.time() > expirationTime)) {
                    drivetrain.arcadeDrive(0, 0, .0, false, true);
                    stage = 190;
                }
            }
            if (side == Side.LEFT){
-               if (driveEncoderRight > driveTrainGoal || (runtime.time() > expirationTime)) {
+               if (gyro.getAngularOrientation().firstAngle < gyroGoal || (runtime.time() > expirationTime)) {
                    drivetrain.arcadeDrive(0, 0, .0, false, true);
                    stage = 190;
                }
@@ -357,14 +360,16 @@ public class AutonStages {
         else if (stage == 221) {
             //turn to duck ROTATE PART TWO
             if (side == Side.RIGHT & color == Color.BLUE) {
-                driveTrainGoal = driveEncoderRight - 550;
+                drivetrain.gyroInit();
+                gyroGoal = 30;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 1.0;
                 stage = 222;
             }
             if (side == Side.LEFT & color == Color.RED) {
-                driveTrainGoal = driveEncoderRight + 500;
+                drivetrain.gyroInit();
+                gyroGoal = -30;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 1.0;
@@ -375,13 +380,13 @@ public class AutonStages {
         else if (stage == 222) {
             //stopping
             if (side == Side.RIGHT){
-                if (driveEncoderRight < driveTrainGoal || (runtime.time() > expirationTime)) {
+                if (gyro.getAngularOrientation().firstAngle > gyroGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 223;
                 }
             }
             if (side == Side.LEFT){
-                if (driveEncoderRight > driveTrainGoal || (runtime.time() > expirationTime)) {
+                if (gyro.getAngularOrientation().firstAngle < gyroGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 223;
                 }
