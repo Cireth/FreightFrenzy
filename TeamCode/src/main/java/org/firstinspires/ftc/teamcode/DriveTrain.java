@@ -79,6 +79,7 @@ public class DriveTrain {
         gyro.startAccelerationIntegration(new Position(), new Velocity(), 10);
 
         gyroZero = gyro.getAngularOrientation().firstAngle;
+
     }
 
 
@@ -199,8 +200,6 @@ public class DriveTrain {
             telemetry.addData("Right Encoder", getEncoderRight());
 
             telemetry.addData("Gyroscope", gyro.getAngularOrientation().firstAngle);
-            telemetry.addData("Gyroscope", gyro.getAngularOrientation().secondAngle);
-            telemetry.addData("Gyroscope", gyro.getAngularOrientation().thirdAngle);
 
 
         }
@@ -280,6 +279,10 @@ public class DriveTrain {
         out = Math.max(-1.0, out);
         out = Math.min(1.0, out);
         return out;
+    }
+
+    public double getGyroAngle() {
+        return gyro.getAngularOrientation().firstAngle;
     }
 
 

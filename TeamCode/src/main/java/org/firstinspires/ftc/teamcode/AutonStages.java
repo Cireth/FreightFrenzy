@@ -26,7 +26,6 @@ public class AutonStages {
     private int driveTrainEncoder;
     private int duckAmount;
     private double gyroGoal = 0.0;
-    BNO055IMU gyro;
 
 
     public AutonStages(Color color, Side side, HardwareMap hardwareMap,
@@ -50,6 +49,7 @@ public class AutonStages {
         drivetrain.outputEncoders();
         telemetry.addData("Duck", duck);
         telemetry.addData("STAGE:", stage);
+        telemetry.addData("Gyroscope", drivetrain.getGyroAngle());
 
 
         if (stage == 0) {
@@ -93,7 +93,9 @@ public class AutonStages {
         else if (stage == 65) {
             //strafe to 3
             if (side == Side.RIGHT & color == Color.RED) {
-
+                driveTrainGoal = driveTrainEncoder - 1000;
+                drivetrain.arcadeDrive(0, 0, -.6, false, true);
+                //rotate, forward/back, strafe
             }
             else {
                 driveTrainGoal = driveTrainEncoder + 1000;
@@ -106,7 +108,17 @@ public class AutonStages {
         else if (stage == 70) {
             //stops
             if (side == Side.RIGHT & color == Color.RED){
-                //same as below flip sign? other direction
+                if (driveTrainEncoder < driveTrainGoal || (runtime.time() > expirationTime)) {
+                    drivetrain.arcadeDrive(0, 0, .0, false, true);
+                    //if two it skips scanning for three
+                    if(duck == 2) {
+                        stage = 100;
+                    }
+                    else{
+                        expirationTime = runtime.time() + 1.0;
+                        stage = 80;
+                    }
+                }
             }
             else {
                 if (driveTrainEncoder > driveTrainGoal || (runtime.time() > expirationTime)) {
@@ -181,10 +193,14 @@ public class AutonStages {
                 //rotate, forward/back, strafe
             }
             if (side == Side.LEFT & color == Color.RED) {
-
+                driveTrainGoal = driveEncoderLeft - 4000;
+                drivetrain.arcadeDrive(0, 0, .6, false, true);
+                //rotate, forward/back, strafe
             }
             if (side == Side.RIGHT & color == Color.RED) {
-
+                driveTrainGoal = driveEncoderLeft + 1000;
+                drivetrain.arcadeDrive(0, 0, -.6, false, true);
+                //rotate, forward/back, strafe
             }
             expirationTime = runtime.time() + 3.0;
             stage = 140;
@@ -193,12 +209,18 @@ public class AutonStages {
         else if (stage == 140) {
             //stopping
             if (side == Side.LEFT) {
+                double gyroCorrection = drivetrain.getGyroAngle() * RobotMap.GYRO_CORRECTION_kP;
+                drivetrain.arcadeDrive(gyroCorrection, 0, .6, false, true);
+
                 if (driveEncoderLeft < driveTrainGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 150;
                 }
             }
             if (side == Side.RIGHT) {
+                double gyroCorrection = drivetrain.getGyroAngle() * RobotMap.GYRO_CORRECTION_kP;
+                drivetrain.arcadeDrive(gyroCorrection, 0, -.6, false, true);
+
                 if (driveEncoderLeft > driveTrainGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 150;
@@ -286,7 +308,7 @@ public class AutonStages {
         else if (stage == 183) {
             //stopping
             if (driveEncoderLeft < driveTrainGoal || (runtime.time() > expirationTime)) {
-                drivetrain.arcadeDrive(0, 0, .0, false, true);
+                drivetrain.arcadeDrive(0, 0, 0, false, true);
                 stage = 185;
             }
         }
@@ -296,19 +318,19 @@ public class AutonStages {
                 stage = 300;
             }
             if (side == Side.RIGHT & color == Color.BLUE) {
-                drivetrain.gyroInit();
-                gyroGoal = 100.0;
+
+                gyroGoal = -100.0;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
-                expirationTime = runtime.time() + 1.5;
+                expirationTime = runtime.time() + 5;
                 stage = 186;
             }
             if (side == Side.LEFT & color == Color.RED) {
-                drivetrain.gyroInit();
-                gyroGoal = -100.0;
+
+                gyroGoal = 100.0;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
-                expirationTime = runtime.time() + 1.5;
+                expirationTime = runtime.time() + 5;
                 stage = 186;
             }
             if (side == Side.RIGHT & color == Color.RED) {
@@ -319,13 +341,13 @@ public class AutonStages {
         else if (stage == 186) {
             //stopping
            if (side == Side.RIGHT){
-               if (gyro.getAngularOrientation().firstAngle > gyroGoal || (runtime.time() > expirationTime)) {
+               if (drivetrain.getGyroAngle() < gyroGoal || (runtime.time() > expirationTime)) {
                    drivetrain.arcadeDrive(0, 0, .0, false, true);
                    stage = 190;
                }
            }
            if (side == Side.LEFT){
-               if (gyro.getAngularOrientation().firstAngle < gyroGoal || (runtime.time() > expirationTime)) {
+               if (drivetrain.getGyroAngle() > gyroGoal || (runtime.time() > expirationTime)) {
                    drivetrain.arcadeDrive(0, 0, .0, false, true);
                    stage = 190;
                }
@@ -360,19 +382,19 @@ public class AutonStages {
         else if (stage == 221) {
             //turn to duck ROTATE PART TWO
             if (side == Side.RIGHT & color == Color.BLUE) {
-                drivetrain.gyroInit();
-                gyroGoal = 30;
+
+                gyroGoal = -130;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
-                expirationTime = runtime.time() + 1.0;
+                expirationTime = runtime.time() + 5;
                 stage = 222;
             }
             if (side == Side.LEFT & color == Color.RED) {
-                drivetrain.gyroInit();
-                gyroGoal = -30;
+
+                gyroGoal = 130;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
-                expirationTime = runtime.time() + 1.0;
+                expirationTime = runtime.time() + 5;
                 stage = 222;
             }
 
@@ -380,13 +402,13 @@ public class AutonStages {
         else if (stage == 222) {
             //stopping
             if (side == Side.RIGHT){
-                if (gyro.getAngularOrientation().firstAngle > gyroGoal || (runtime.time() > expirationTime)) {
+                if (drivetrain.getGyroAngle() < gyroGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 223;
                 }
             }
             if (side == Side.LEFT){
-                if (gyro.getAngularOrientation().firstAngle < gyroGoal || (runtime.time() > expirationTime)) {
+                if (drivetrain.getGyroAngle() > gyroGoal || (runtime.time() > expirationTime)) {
                     drivetrain.arcadeDrive(0, 0, .0, false, true);
                     stage = 223;
                 }
@@ -416,6 +438,21 @@ public class AutonStages {
         else if (stage == 301) {
             if (runtime.time() > expirationTime) stage = 302;
         }
+
+
+
+        if(stage == 10000){
+            driveTrainGoal = 1000000;
+            double gyroCorrection = drivetrain.getGyroAngle() * RobotMap.GYRO_CORRECTION_kP;
+            drivetrain.arcadeDrive(gyroCorrection, -.7, 0, false, true);
+            if (driveEncoderLeft > driveTrainGoal) {
+                drivetrain.arcadeDrive(0, 0, .0, false, true);
+                stage = 10001;
+            }
+
+        }
+
+
         /*
         else if (stage == 109){
             //backward & turn
