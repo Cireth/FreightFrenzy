@@ -188,17 +188,17 @@ public class AutonStages {
                 //rotate, forward/back, strafe
             }
             if (side == Side.RIGHT & color == Color.BLUE) {
-                driveTrainGoal = driveEncoderLeft + 4000;
+                driveTrainGoal = driveEncoderLeft + 1000;
                 drivetrain.arcadeDrive(0, 0, -.6, false, true);
                 //rotate, forward/back, strafe
             }
             if (side == Side.LEFT & color == Color.RED) {
-                driveTrainGoal = driveEncoderLeft - 4000;
+                driveTrainGoal = driveEncoderLeft - 1000;
                 drivetrain.arcadeDrive(0, 0, .6, false, true);
                 //rotate, forward/back, strafe
             }
             if (side == Side.RIGHT & color == Color.RED) {
-                driveTrainGoal = driveEncoderLeft + 1000;
+                driveTrainGoal = driveEncoderLeft + 1100;
                 drivetrain.arcadeDrive(0, 0, -.6, false, true);
                 //rotate, forward/back, strafe
             }
@@ -319,7 +319,7 @@ public class AutonStages {
             }
             if (side == Side.RIGHT & color == Color.BLUE) {
 
-                gyroGoal = -100.0;
+                gyroGoal = -95.0;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 5;
@@ -327,7 +327,7 @@ public class AutonStages {
             }
             if (side == Side.LEFT & color == Color.RED) {
 
-                gyroGoal = 100.0;
+                gyroGoal = 85.0;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 5;
@@ -364,10 +364,15 @@ public class AutonStages {
         }
         else if (stage == 200) {
             //forward (toward spin)
-            driveTrainGoal = driveEncoderLeft + 3700;
+            if (side == Side.LEFT && color == Color.RED){
+                driveTrainGoal = driveEncoderLeft + 4700;
+            }
+            else {
+                driveTrainGoal = driveEncoderLeft + 3300;
+            }
             drivetrain.arcadeDrive(0, -0.6, 0, false, true);
             //rotate, forward/back, strafe
-            expirationTime = runtime.time() + 3.0;
+            expirationTime = runtime.time() + 4.0;
             stage = 210;
 
         }
@@ -383,7 +388,7 @@ public class AutonStages {
             //turn to duck ROTATE PART TWO
             if (side == Side.RIGHT & color == Color.BLUE) {
 
-                gyroGoal = -130;
+                gyroGoal = -125;
                 drivetrain.arcadeDrive(0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 5;
@@ -391,7 +396,7 @@ public class AutonStages {
             }
             if (side == Side.LEFT & color == Color.RED) {
 
-                gyroGoal = 130;
+                gyroGoal = 120;
                 drivetrain.arcadeDrive(-0.5, 0, 0, false, true);
                 //rotate, forward/back, strafe
                 expirationTime = runtime.time() + 5;
@@ -418,9 +423,17 @@ public class AutonStages {
 
         else if(stage == 223){
             //move bungee
-            bungeeClaw.manual(0, 0.8, false);
-            expirationTime = runtime.time() + 2.5;
-            stage = 230;
+            if (side == Side.RIGHT) {
+                bungeeClaw.manual(0, -0.8, false);
+                expirationTime = runtime.time() + 5;
+                stage = 230;
+            }
+            if (side == Side.LEFT){
+                bungeeClaw.manual(0, 0.8, false);
+                expirationTime = runtime.time() + 5;
+                stage = 230;
+            }
+
         }
         else if (stage == 230){
             //bungee stop
